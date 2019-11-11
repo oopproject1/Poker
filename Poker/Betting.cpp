@@ -4,20 +4,20 @@ using namespace std;
 
 public class Betting {
 
-//ÀÓÀÇ·Î °ªÀ» ³ÖÀº ¿¹½Ãº¯¼ö, *Ç¥½Ãº¯¼öµéÀº ¿ÜºÎ¿¡¼­ ¹Ş¾Æ¿Í¾ßÇÒ º¯¼öµéÀÌ´Ù.
+//ì„ì˜ë¡œ ê°’ì„ ë„£ì€ ì˜ˆì‹œë³€ìˆ˜, *í‘œì‹œë³€ìˆ˜ë“¤ì€ ì™¸ë¶€ì—ì„œ ë°›ì•„ì™€ì•¼í•  ë³€ìˆ˜ë“¤ì´ë‹¤.
 private:
-	int money; // ÇÃ·¹ÀÌ¾î º¸À¯±İ¾× *
-	bool lose; // ÇÃ·¹ÀÌ¾î ½Â/ÆĞ »óÅÂ *
-	int bettingMoney; // º£ÆÃ±İ¾×
-	char bettingStart; // º£ÆÃÀ¯¹«
-	bool death; // º£ÆÃÇÏÁö¾Ê°í Á×¾îÀÖ´Â»óÅÂ
+	int money; // í”Œë ˆì´ì–´ ë³´ìœ ê¸ˆì•¡ *
+	bool lose; // í”Œë ˆì´ì–´ ìŠ¹/íŒ¨ ìƒíƒœ *
+	int bettingMoney; // ë² íŒ…ê¸ˆì•¡
+	char bettingStart; // ë² íŒ…ìœ ë¬´
+	bool death; // ë² íŒ…í•˜ì§€ì•Šê³  ì£½ì–´ìˆëŠ”ìƒíƒœ
 
-	int cardLength = 3; // ÇÃ·¹ÀÌ¾îµéÀÌ º¸À¯ÇÑ Ä«µå°³¼ö *
-	int minBetting = 100; // ±âº»º£ÆÃ±İ¾× *
-	int maxBetting = 10000; // ÃÖ´ëº£ÆÃ±İ¾× *
+	int cardLength = 3; // í”Œë ˆì´ì–´ë“¤ì´ ë³´ìœ í•œ ì¹´ë“œê°œìˆ˜ *
+	int minBetting = 100; // ê¸°ë³¸ë² íŒ…ê¸ˆì•¡ *
+	int maxBetting = 10000; // ìµœëŒ€ë² íŒ…ê¸ˆì•¡ *
 
 public:
-	//ÀÓ½Ã getter
+	//ì„ì‹œ getter
 	int getMoney() { return this.money; }
 	bool getLose() { return this.lose; }
 	int getBettingMoney() { return this.bettingMoney; }
@@ -28,7 +28,7 @@ public:
 	int getMinBetting() { return this.minBetting; }
 	int getMaxBetting() { return this.maxBetting; }
 
-	//ÀÓ½Ã setter
+	//ì„ì‹œ setter
 	void setMoney(int newMoney) { this.money = newMoney; }
 	void setLose(bool newLose) { this.lose = newLose; }
 	void setBettingMoney(int newBettingMoney) { this.bettingMoney = newBettingMoney; }
@@ -39,7 +39,7 @@ public:
 	void setMinBetting(int newMinBetting) { this.minBetting = newMinBetting; }
 	void setMoney(int newMaxBetting) { this.maxBetting = newMaxBetting; }
 
-	//°¢ ÇÃ·¹ÀÌ¾î »ı¼ºÀÚ
+	//ê° í”Œë ˆì´ì–´ ìƒì„±ì
 	Betting(int getMoney, bool getLose) {
 		money = getMoney;
 		lose = getLose;
@@ -48,52 +48,52 @@ public:
 		death = false;
 	}
 
-	//º£ÆÃ½ÃÀÛ¸Ş¼Òµå
+	//ë² íŒ…ì‹œì‘ë©”ì†Œë“œ
 	public BettingRun() {
 		if (this.getLose() == true) {
-			cout << "´ç½ÅÀº ÀÌ¹Ì ÆĞ¹èÇÑ »óÅÂÀÔ´Ï´Ù." << endl;
+			cout << "ë‹¹ì‹ ì€ ì´ë¯¸ íŒ¨ë°°í•œ ìƒíƒœì…ë‹ˆë‹¤." << endl;
 			return;
 		}
 		else if (this.getMoney() < getMinBetting()) {
 			setLose(true);
-			cout << "ÃÖ¼Òº£ÆÃ±İ¾×À» ÃæÁ·ÇÏÁö ¸øÇÏ¿© ÆĞ¹èÇÏ¿´½À´Ï´Ù." << endl;
+			cout << "ìµœì†Œë² íŒ…ê¸ˆì•¡ì„ ì¶©ì¡±í•˜ì§€ ëª»í•˜ì—¬ íŒ¨ë°°í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
 			return;
 		}
 		else if (this.getLose() == false) {
 			this.setMoney(this.getMoney() - getMinBetting());
-			cout << "±âº»º£ÆÃ±İ¾× " << getMinBetting() << "À» ÁöºÒÇß½À´Ï´Ù." << endl;
-			cout << "º£ÆÃÀ» ÇÏ½Ã°Ú½À´Ï±î? ( Y or N )"<< std::endl;
+			cout << "ê¸°ë³¸ë² íŒ…ê¸ˆì•¡ " << getMinBetting() << "ì„ ì§€ë¶ˆí–ˆìŠµë‹ˆë‹¤." << endl;
+			cout << "ë² íŒ…ì„ í•˜ì‹œê² ìŠµë‹ˆê¹Œ? ( Y or N )"<< std::endl;
 			cin >> char BStemp >> endl;
 			this.setBettingStart(BStemp);
 			if (this.getBettingStart() == "Y") {
-				cout << "º£ÆÃÇÒ ±İ¾×À» ÀÔ·ÂÇÏ¼¼¿ä. ÃÖ´ëº£ÆÃ±İ¾×Àº " << getMaxBetting() << " ÀÔ´Ï´Ù" << endl;
+				cout << "ë² íŒ…í•  ê¸ˆì•¡ì„ ì…ë ¥í•˜ì„¸ìš”. ìµœëŒ€ë² íŒ…ê¸ˆì•¡ì€ " << getMaxBetting() << " ì…ë‹ˆë‹¤" << endl;
 				cin >> int tempBM >> std::endl;
 				this.setBettingMoney(tempBM);
 				if (this.getBettingMoney() > getMaxBetting()) {
-					cout << "ÃÖ´ëº£ÆÃ±İ¾×À» ÃÊ°úÇÏ¿´½À´Ï´Ù." << endl;
+					cout << "ìµœëŒ€ë² íŒ…ê¸ˆì•¡ì„ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
 				}
 				else if (this.getBettingMoney() > this.getMoney()) {
-					cout << "º¸À¯±İ¾×À» ÃÊ°úÇÏ¿´½À´Ï´Ù." << endl;
+					cout << "ë³´ìœ ê¸ˆì•¡ì„ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
 				}
 				else {
 					this.setMoney(this.getMoney() - this.getBettingMoney());
-					cout << this.getBettingMoney() << "¿øÀ» º£ÆÃÇÏ¿´½À´Ï´Ù." << endl;
+					cout << this.getBettingMoney() << "ì›ì„ ë² íŒ…í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
 				}
 			}
 			else if (this.getBettingStart() == "N") {
-				cout << "Á×¾ú½À´Ï´Ù." << endl;
+				cout << "ì£½ì—ˆìŠµë‹ˆë‹¤." << endl;
 				this.setDeath(true);
 			}
 		}
 		if (getCardLength() == 5) {
-			cout << "°ÔÀÓÀÌ Á¾·áµÇ¾ú½À´Ï´Ù. °ÔÀÓÀÇ ½ÂÀÚ¿Í ÇÃ·¹ÀÌ¾îµéÀÇ ³²Àº ±İ¾×Àº ´ÙÀ½°ú °°½À´Ï´Ù" << endl;
-			//ÀÌÈÄ °ÔÀÓ±ÔÄ¢Å¬·¡½º¸¦ ÂüÁ¶ÇÏ¿© ÄÚµåÃß°¡
+			cout << "ê²Œì„ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ê²Œì„ì˜ ìŠ¹ìì™€ í”Œë ˆì´ì–´ë“¤ì˜ ë‚¨ì€ ê¸ˆì•¡ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤" << endl;
+			//ì´í›„ ê²Œì„ê·œì¹™í´ë˜ìŠ¤ë¥¼ ì°¸ì¡°í•˜ì—¬ ì½”ë“œì¶”ê°€
 		}
 		else if (getCardLength() < 5) {
-			cout << "ÇØ´ç ÅÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù. ÇØ´ç ÅÏÀÇ ½ÂÀÚ¿Í º£ÆÃ±İ¾×Àº ´ÙÀ½°ú °°½À´Ï´Ù." << endl;
-			//ÀÌÈÄ °ÔÀÓ±ÔÄ¢Å¬·¡½º¸¦ ÂüÁ¶ÇÏ¿© ÄÚµåÃß°¡
+			cout << "í•´ë‹¹ í„´ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. í•´ë‹¹ í„´ì˜ ìŠ¹ìì™€ ë² íŒ…ê¸ˆì•¡ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤." << endl;
+			//ì´í›„ ê²Œì„ê·œì¹™í´ë˜ìŠ¤ë¥¼ ì°¸ì¡°í•˜ì—¬ ì½”ë“œì¶”ê°€
 			
-			cout << "»õ·Î¿î Ä«µå1ÀåÀ» ¹Ş¾Ò½À´Ï´Ù: " << "newcard" << endl;;
+			cout << "ìƒˆë¡œìš´ ì¹´ë“œ1ì¥ì„ ë°›ì•˜ìŠµë‹ˆë‹¤: " << "newcard" << endl;;
 		}
 	}
-};
+}
