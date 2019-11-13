@@ -45,17 +45,17 @@ class Card {
 			}
 			remainCard[x] = remainCard[--remain];
 		}
-		void cardprint() {
+		void cardprint() {//카드 프린트
 			std::cout << shape << ", " << value << std::endl;
 
 		}
-		int getShape() {
+		int getShape() {//모양 받기
 			return shape_;
 		}
-		int getValue() {
+		int getValue() {//숫자 받기
 			return value_;
 		}
-		void shuffle() {
+		void shuffle() {//카드 다시 섞기
 			remain = 52;
 			for (int i = 0; i < 52; i++) {
 				remainCard[i] = i;
