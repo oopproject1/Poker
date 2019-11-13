@@ -55,7 +55,7 @@ class Card {
 		int getValue() {//숫자 받기
 			return value_;
 		}
-		void shuffle() {//카드 다시 섞기
+		void shuffle() {//카드 다시 섞기. 나중에 딜러 클래스로 옮겨야 함
 			remain = 52;
 			for (int i = 0; i < 52; i++) {
 				remainCard[i] = i;
