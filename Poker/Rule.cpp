@@ -252,7 +252,7 @@ public:
 	//가장 높은 카드를 알려준다.
 	std::string bestCard() {
 		int max = 0;
-		for (int i = 0; i < sizeof(card); i++) {
+		for (int i = 0; i < (sizeof(cardValue)/sizeof(int)); i++) {
 			if (cardValue[i] == 1) {
 				return "A";
 			}
