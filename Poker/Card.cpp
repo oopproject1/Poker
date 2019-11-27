@@ -2,65 +2,57 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
-class Card {
-	static int remain;
-	static int remainCard[52];
-	int shape_;
-	int value_;
-	char shape;
-	std::string value;
-	public:
-		Card() {
-			srand((unsigned int)time(NULL));
-			int x = rand() % remain;
-			shape_ = remainCard[x] / 13;
-			value_ = (remainCard[x] % 13) + 1;
-			if (shape_ == 0) {
-				shape = 'H';
-			}
-			else if (shape_ == 1) {
-				shape = 'S';
-			}
-			else if (shape_ == 2) {
-				shape = 'C';
-			}
-			else {
-				shape = 'D';
-			}
-			if (value_ == 1) {
-				value = 'A';
-			}
-			else if (value_ == 11) {
-				value = 'J';
-			}
-			else if (value_ == 12) {
-				value = 'Q';
-			}
-			else if (value_ == 13) {
-				value = 'K';
+#include "Card.h"
 
-			}
-			else {
-				value = std::to_string(value_);
-			}
-			remainCard[x] = remainCard[--remain];
-		}
-		void cardprint() {//ì¹´ë“œ í”„ë¦°íŠ¸
-			std::cout << shape << ", " << value << std::endl;
-
-		}
-		int getShape() {//ëª¨ì–‘ ë°›ê¸°
-			return shape_;
-		}
-		int getValue() {//ìˆ«ìž ë°›ê¸°
-			return value_;
-		}
-		void shuffle() {//ì¹´ë“œ ë‹¤ì‹œ ì„žê¸°. ë‚˜ì¤‘ì— ë”œëŸ¬ í´ëž˜ìŠ¤ë¡œ ì˜®ê²¨ì•¼ í•¨
-			remain = 52;
-			for (int i = 0; i < 52; i++) {
-				remainCard[i] = i;
-			}
-		}
-};
+Card::Card() {
+	srand((unsigned int)time(NULL));
+	int x = rand() % remain;
+	shape_ = remainCard[x] / 13;
+	value_ = (remainCard[x] % 13) + 1;
+	if (shape_ == 0) {
+		shape = 'H';
+	}
+	else if (shape_ == 1) {
+		shape = 'S';
+	}
+	else if (shape_ == 2) {
+		shape = 'C';
+	}
+	else {
+		shape = 'D';
+	}
+	if (value_ == 1) {
+		value = 'A';
+	}
+	else if (value_ == 11) {
+		value = 'J';
+	}
+	else if (value_ == 12) {
+		value = 'Q';
+	}
+	else if (value_ == 13) {
+		value = 'K';
+	}
+	else {
+		value = std::to_string(value_);
+	}
+	remainCard[x] = remainCard[--remain];
+}
+void Card::cardprint() {//Ä«µå ÇÁ¸°Æ®
+	std::cout << shape << ", " << value << std::endl;
+}
+int Card::getShape() {//¸ð¾ç ¹Þ±â
+	return shape_;
+}
+int Card::getValue() {//¼ýÀÚ ¹Þ±â
+	return value_;
+}
+void Card::shuffle() {//Ä«µå ´Ù½Ã ¼¯±â. ³ªÁß¿¡ µô·¯ Å¬·¡½º·Î ¿Å°Ü¾ß ÇÔ
+	remain = 52;
+	for (int i = 0; i < 52; i++) {
+		remainCard[i] = i;
+	}
+}
 int Card::remain = 52;
 int Card::remainCard[52] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 };
+
