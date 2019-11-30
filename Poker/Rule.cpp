@@ -342,10 +342,10 @@ void Rule::priority(Card p[], Card n1[], Card n2[], Card n3[]) {
 	}
 	if (count == 0) { //승패가 명확할 때
 		auto it = maxDeck.begin();
-		std::cout << (*it) << std::endl;
+		std::cout << "player"<<(*it)+1 << "win"<< std::endl;
 	}
 	else{
-		std::cout << "구현중"<< std::endl;
+		std::cout << "구현중" << std::endl;
 	}
 }
 
@@ -360,15 +360,15 @@ int main() {
 	}
 	std::cout << std::endl;
 	for (int i = 0; i < 5; i++) {
-		p[i].cardprint();
+		n1[i].cardprint();
 	}
 	std::cout << std::endl;
 	for (int i = 0; i < 5; i++) {
-		p[i].cardprint();
+		n2[i].cardprint();
 	}
 	std::cout << std::endl;
 	for (int i = 0; i < 5; i++) {
-		p[i].cardprint();
+		n3[i].cardprint();
 	}
 	std::cout << std::endl;
 
