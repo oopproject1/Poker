@@ -1,22 +1,12 @@
 #pragma once
 #include <iostream>
-#include "Card.h"
-
 class Rule {
-
 public:
+	void sortCard(int cardShape[], int cardValue[]); // ë±ì„ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì •ë ¬
 
-
-	Card card[5];
-	int cardShape[5];
-	int cardValue[5];
-	
-
-	void sortCard(Card card[]); // µ¦À» ¿À¸§Â÷¼øÀ¸·Î Á¤·Ä
-
-	int onePair(int card[]);  
-	int twoPair(int card[]);  
-	int triple(int card[]);  
+	int onePair(int card[]);
+	int twoPair(int card[]);
+	int triple(int card[]);
 	int straight(int card[]);
 	int flush(int card[]);
 	int fullHouse(int card[]);
@@ -24,9 +14,8 @@ public:
 	int straightFlush(int cardShape[], int cardValue[]);
 	int royalFlush(int cardShape[], int CardValue[]);
 
-	int deckCombination(Card card[]); // °¡´ÉÇÑ µ¦ Á¶ÇÕÀ» ¾Ë·ÁÁØ´Ù.
-
-	std::string bestCard();//°¡Àå°­ÇÑ Ä«µå¸¦ ¾Ë·ÁÁØ´Ù.
-
+	int deckCombination(Card card[]); // ê°€ëŠ¥í•œ ë± ì¡°í•©ì„ ì•Œë ¤ì¤€ë‹¤.
+	void priority(Card p[], Card n1[], Card n2[], Card n3[]);
+	std::string bestCard(int card[]);//ê°€ì¥ê°•í•œ ì¹´ë“œë¥¼ ì•Œë ¤ì¤€ë‹¤.
 
 };
