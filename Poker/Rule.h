@@ -15,7 +15,8 @@ public:
 	int royalFlush(int cardShape[], int CardValue[]);
 
 	int deckCombination(Card card[]); // 가능한 덱 조합을 알려준다.
+	void compareValue(Card p[], Card n1[], Card n2[], Card n3[]);
 	void priority(Card p[], Card n1[], Card n2[], Card n3[]);
-	std::string bestCard(int card[]);//가장강한 카드를 알려준다.
+	int bestCard(Card card[]);//가장강한 카드를 알려준다.
 
 };
