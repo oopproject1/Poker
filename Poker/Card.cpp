@@ -10,16 +10,16 @@ Card::Card() {
 	shape_ = remainCard[x] / 13;
 	value_ = (remainCard[x] % 13) + 1;
 	if (shape_ == 0) {
-		shape = 'H';
-	}
-	else if (shape_ == 1) {
-		shape = 'S';
-	}
-	else if (shape_ == 2) {
 		shape = 'C';
 	}
-	else {
+	else if (shape_ == 1) {
+		shape = 'H';
+	}
+	else if (shape_ == 2) {
 		shape = 'D';
+	}
+	else {
+		shape = 'S';
 	}
 	if (value_ == 1) {
 		value = 'A';
@@ -38,16 +38,16 @@ Card::Card() {
 	}
 	remainCard[x] = remainCard[--remain];
 }
-void Card::cardprint() {//Ä«µå ÇÁ¸°Æ®
+void Card::cardprint() {//ì¹´ë“œ í”„ë¦°íŠ¸
 	std::cout << shape << ", " << value << std::endl;
 }
-int Card::getShape() {//¸ð¾ç ¹Þ±â
+int Card::getShape() {//ëª¨ì–‘ ë°›ê¸°
 	return shape_;
 }
-int Card::getValue() {//¼ýÀÚ ¹Þ±â
+int Card::getValue() {//ìˆ«ìž ë°›ê¸°
 	return value_;
 }
-void Card::shuffle() {//Ä«µå ´Ù½Ã ¼¯±â. ³ªÁß¿¡ µô·¯ Å¬·¡½º·Î ¿Å°Ü¾ß ÇÔ
+void Card::shuffle() {//ì¹´ë“œ ë‹¤ì‹œ ì„žê¸°. ë‚˜ì¤‘ì— ë”œëŸ¬ í´ëž˜ìŠ¤ë¡œ ì˜®ê²¨ì•¼ í•¨
 	remain = 52;
 	for (int i = 0; i < 52; i++) {
 		remainCard[i] = i;
