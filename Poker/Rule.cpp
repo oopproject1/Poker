@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <array>
 #include <set>
@@ -244,7 +245,22 @@ int Rule::deckCombination(Card card[]) {
 		return 2;
 	}
 	else {
-		std::cout << Rule::bestCard(cardValue) << " top " << std::endl;
+		if (Rule::bestCard(card) == 1) {
+			std::cout << "A top " << std::endl;
+		}
+		else if (Rule::bestCard(card) == 11) {
+			std::cout << "J top " << std::endl;
+		}
+		else if (Rule::bestCard(card) == 12) {
+			std::cout << "Q top " << std::endl;
+		}
+		else if (Rule::bestCard(card) == 13) {
+			std::cout << "K top " << std::endl;
+		}
+		else {
+			std::cout << Rule::bestCard(card) << " top " << std::endl;
+		}
+		
 		return 1;
 	}
 }
@@ -254,65 +270,70 @@ int Rule::deckCombination(Card card[]) {
 
 
 //가장 높은 카드를 알려준다.
-std::string Rule::bestCard(int card[]) {
+int Rule::bestCard(Card card[]) {
 	int max = 0;
 
 	for (int i = 0; i < 5; i++) {
 
-		if (card[i] == 1) {
+		if (card[i].getValue() == 1) {
 
-			return "A";
+			return 1;
 		}
-		if (max < card[i]) {
-			max = card[i];
+		if (max < card[i].getValue()) {
+			max = card[i].getValue();
 		}
 	}
-	if (max == 11) {
-		return "J";
-	}
-	if (max == 12) {
-		return "Q";
-	}
-	if (max == 13) {
-		return "K";
-	}
-	std::string max_ = std::to_string(max);
-	return max_;
+	return max;
+
 }
 
 
 //////////////////// 작성 해야함
 
-/*
-void compareValue(Player p1, Player n1, Player n2, Player n3) {
-	int a =
-		int max = 0;
-	int count = 0;
-	for (int i = 0; i < 4; i++) {
-		if (max < number_Array[i]) {
-			max = number_Array[i];
+
+void Rule::compareValue(Card p[], Card n1[], Card n2[], Card n3[]) {
+
+	int bestValue[4];
+	bestValue[0] = Rule::bestCard(p);
+	bestValue[1] = Rule::bestCard(n1);
+	bestValue[2] = Rule::bestCard(n2);
+	bestValue[3] = Rule::bestCard(n3);
+
+	int count = -1;
+	int max = 0;
+	std::set<int> maxDeck;
+
+		for (int i = 0; i < 4; i++) {
+			if (bestValue[i] == 1) {
+				max = bestValue[i];
+				break;
+			}
+			else if (max < bestValue[i]) {
+				max = bestValue[i];
+			}
 		}
 		for (int i = 0; i < 4; i++) {
-			if (max == number_Array[i]) {
+			if (max == bestValue[i]) {
 				count++;
+				maxDeck.insert(i);
 			}
-			if (count == 0) {
-				// max값에 해당하는 사람이이김
-			}
-			else {
-				// max 값 중복 된느사람모양비교
-			}
+		}
+		if (count == 0) {// max값에 해당하는 사람이이김
+			auto it = maxDeck.begin();
+			std::cout << "player" << (*it) + 1 << "win" << std::endl;
+			maxDeck.clear();
+		}
+		else {// max 값 중복 된느사람모양비교
+			std::cout << "모양 비교 구현 해야함" << std::endl;
 		}
 	}
 
-}
 
+
+/*
 // 문양을 비교한다.
 void compareShape() {
-
 }
-
-
 */
 
 
@@ -342,10 +363,13 @@ void Rule::priority(Card p[], Card n1[], Card n2[], Card n3[]) {
 	}
 	if (count == 0) { //승패가 명확할 때
 		auto it = maxDeck.begin();
-		std::cout << "player"<<(*it)+1 << "win"<< std::endl;
+		std::cout << "player" << (*it) + 1 << "win" << std::endl;
 		maxDeck.clear();
 	}
-	else{
+	else if (count != 0 && max == 1) {
+		Rule::compareValue(p, n1, n2, n3);
+	}
+	else {
 		std::cout << "구현중" << std::endl;
 	}
 }
