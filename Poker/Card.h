@@ -9,6 +9,7 @@ private:
 	std::string value;
 public:
 	Card();
+	Card(int code);
 	void cardprint();
 	int getShape();
 	int getValue();
