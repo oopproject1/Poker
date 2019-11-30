@@ -1,15 +1,17 @@
-﻿#include <iostream>
+
+#include <iostream>
 #include <array>
 #include "Card.h"
-class Rule {
+#include "Rule.h"
+
+
 	Card card[5];
 	int cardShape[5];
 	int cardValue[5];
-	int compareD[];
-
+	
 
 	// 카드 오름차순으로 정렬
-	void sortCard(Card card[]) {
+	void Rule::sortCard(Card card[]) {
 		int swap;
 
 		for (int i = 0; i < 5; i++) {
@@ -23,15 +25,16 @@ class Rule {
 				swap = cardShape[i];
 				cardShape[i] = cardShape[i + 1];
 				cardShape[i + 1] = swap;
-				i = 0;
+				i = -1;
 			}
 		}
+
 		for (int i = 0; i < 4; i++) {
 			if (cardValue[i] > cardValue[i + 1]) {
 				swap = cardValue[i];
 				cardValue[i] = cardValue[i + 1];
 				cardValue[i + 1] = swap;
-				i = 0;
+				i = -1;
 			}
 		}
 	}
@@ -43,7 +46,7 @@ class Rule {
 
 
 
-	int onePair(int card[]) {
+	int Rule::onePair(int card[]) {
 		int count = 0;
 		for (int i = 0; i < 4; i++) {
 			if (card[i] == card[i + 1]) {
@@ -58,7 +61,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int twoPair(int card[]) {
+	int Rule::twoPair(int card[]) {
 		int count = 0;;
 		for (int i = 0; i < 4; i++) {
 			if (card[i] == card[i + 1]) {
@@ -74,7 +77,7 @@ class Rule {
 		}
 	}
 
-	int triple(int card[]) {
+	int Rule::triple(int card[]) {
 		int count = 0;
 		for (int i = 0; i < 4; i++) {
 			if (card[i] == card[i + 1] && card[i + 1] == card[i + 2]) {
@@ -89,7 +92,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int straight(int card[]) {
+	int Rule::straight(int card[]) {
 		int count = 0;
 		for (int i = 0; i < 4; i++) {
 			if (card[i] + 1 == card[i + 1]) {
@@ -103,7 +106,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int flush(int card[]) {
+	int Rule::flush(int card[]) {
 		int count = 0;
 		for (int i = 0; i < 4; i++) {
 			if (card[i] == card[i + 1]) {
@@ -117,7 +120,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int fullHouse(int card[]) {
+	int Rule::fullHouse(int card[]) {
 		int tripleCount = 0;
 		int pairCount = 0;
 		for (int i = 0; i < 4; i++) {
@@ -139,7 +142,7 @@ class Rule {
 			}
 		}
 	}
-	int fourCard(int card[]) {
+	int Rule::fourCard(int card[]) {
 		int count = 0;
 		for (int i = 0; i < 2; i++) {
 			if (card[i] == card[i + 1] && card[i + 1] == card[i + 2] && card[i + 2] == card[i + 3]) {
@@ -153,7 +156,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int straightFlush(int cardShape[], int cardValue[]) {
+	int Rule::straightFlush(int cardShape[], int cardValue[]) {
 		int count = 0;
 		count = count + straight(cardValue); // 매개변수로 card 덱 받아야함
 		count = count + flush(cardShape);  // 매개변수로 card 덱 받아야함
@@ -164,7 +167,7 @@ class Rule {
 			return 0;
 		}
 	}
-	int royalFlush(int cardShape[], int CardValue[]) {
+	int Rule::royalFlush(int cardShape[], int CardValue[]) {
 		int count = 0;
 		int aceCount = 0;
 		int tenCount = 0;
@@ -198,11 +201,13 @@ class Rule {
 
 
 
-public:
+
 	// 자신의 카드 덱중 가능한 조합
-	int deckCombination(Card card[]) {
+	int Rule::deckCombination(Card card[]) {
+
 		int count = 0;
-		sortCard(card); // 카드정렬
+		Rule::sortCard(card); // 카드정렬
+
 		if (royalFlush(cardShape, cardValue) == 1) {
 			std::cout << "royalFlush 가능 " << std::endl;
 			return 10;
@@ -240,20 +245,23 @@ public:
 			return 2;
 		}
 		else {
-			std::cout << bestCard() << " top " << std::endl;
+			std::cout << Rule::bestCard() << " top " << std::endl;
 			return 1;
 		}
 	}
 
-	
+
 
 
 
 	//가장 높은 카드를 알려준다.
-	std::string bestCard() {
+	std::string Rule::bestCard() {
 		int max = 0;
-		for (int i = 0; i < (sizeof(cardValue)/sizeof(int)); i++) {
+
+		for (int i = 0; i < 5; i++) {
+
 			if (cardValue[i] == 1) {
+
 				return "A";
 			}
 			if (max < cardValue[i]) {
@@ -273,57 +281,5 @@ public:
 		return max_;
 	}
 
-	//카드의 숫자를 비교한다.
-	void compareNumber() {
+	
 
-	}
-
-	//카드의 문양을 비교한다.
-	void compare() {
-
-	}
-
-
-
-
-
-
-
-	// n명중 승패를 정해준다
-/*	void priority() {
-		int max = 0;
-		int count = 0;
-		for (int i = 0; i < player.size(); i++) {
-			combination_value[i] = deckCombination(player[i].card);//객체마다 combination 값을 반환해줌
-		}
-		for (int i = 0; i < player.size(); i++) {//가장 높은 반환 값을 구해준다.
-			if (max < combination_value[i]) {
-				max = combination_value[i];
-			}
-		}
-		for (int i = 0; i < player.size(); i++) {
-			if (max == combination_value[i]) {
-				compareD[] = //겹칠마다 배열추가
-
-			}
-		}
-		if (compareD[0] == 1) { //모두 단일카드일때 숫자 , 모양 높은 순으로 승
-
-		}
-		else if (compareD[] != 1 && compareD.size >= 2) {// 원페어 ~ 스트레이트 플러쉬일때, 조합이 2명이상 같을때,
-
-		}
-		else { // 원페어 ~ 스트레이트 플러쉬일때, 조합이 겹치는 사람이 없을때
-		}
-	}*/
-};
-
-int main() {//test용 
-	Card card[5];
-	Rule r;
-	for (int i = 0; i < 5; i++) {
-		card[i].cardprint();
-	}
-	r.deckCombination(card);
-	return 0;
-}
