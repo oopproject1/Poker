@@ -94,6 +94,9 @@
 	}
 	int Rule::straight(int card[]) {
 		int count = 0;
+		if(card[0] == 1 && card[1] == 10 && card[2] == 11 && card[3] == 12 && card[4] == 13){//10 J Q K A
+			return 1;
+		}
 		for (int i = 0; i < 4; i++) {
 			if (card[i] + 1 == card[i + 1]) {
 				count++;
