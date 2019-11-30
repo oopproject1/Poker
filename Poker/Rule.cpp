@@ -282,4 +282,62 @@
 	}
 
 	
+//////////////////// 작성 해야함
 
+// 
+void compareValue(Player p1,Player n1,Player n2,Player n3) {
+	int a = 
+	int max = 0;
+	int count = 0;
+	for (int i = 0; i < 4; i++) {
+		if (max < number_Array[i]) {
+			max = number_Array[i];
+		}
+		for (int i = 0; i < 4; i++) {
+			if (max == number_Array[i]) {
+				count++;
+			}
+			if (count == 0) {
+				// max값에 해당하는 사람이이김
+			}
+			else {
+				// max 값 중복 된느사람모양비교
+			}
+		}
+	}
+
+}
+
+// 문양을 비교한다.
+void compareShape(){
+
+}
+
+
+
+
+
+//승패를 결정한다
+void priority(const int player, const int npc_1, const int npc_2, const int npc_3) {
+
+	int player_array[4] = { player, npc_1, npc_2, npc_3 };
+	int max = 0;
+	int count = -1;
+	for (int i = 0; i < 4; i++) {//가장 높은 반환 deckCombination을 구한다.
+		if (max < player_array[i]) {
+			max = player_array[i];
+		}
+	}
+	for (int i = 0; i < 4; i++) {//가장 높은 반환 deckCombination이 겹칠 때마다 count 추가
+		if (max == player_array[i]) {
+			count++;
+		}
+	}
+	if (max == 1) { //모두 단일카드일때 숫자 , 모양 높은 순으로 승
+
+	}
+	else if (count >= 1) {// 원페어 ~ 스트레이트 플러쉬일때, 조합이 2명이상 같을때,
+	}
+	else { // 원페어 ~ 스트레이트 플러쉬일때, 조합이 겹치는 사람이 없을때
+	}
+} 
