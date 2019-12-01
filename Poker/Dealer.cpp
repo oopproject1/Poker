@@ -1,31 +1,80 @@
-ï»¿#include "pch.h"
 #include <iostream>
+#include "Card.h"
+#include "Betting.h"
+#include "Player.h"
+#include "Rule.h"
 
 class Dealer {
 
-	public:
+public:
 
-	void start(){ //ê²Œìž„ ì‹œìž‘ 
-		std::cout << "ê²Œìž„ì„ ì‹œìž‘í•©ë‹ˆë‹¤." << std::endl;
-		std::cout << "ë±ì„ ì…”í”Œí•©ë‹ˆë‹¤." << std::endl;
-		std::cout << "ì¹´ë“œë¥¼ 3ìž¥ì”© ë‚˜ëˆ ì¤ë‹ˆë‹¤." << std::endl;
-
-	}  
-	void attendcheck() { //ì°¸ê°€ ì—¬ë¶€ í™•ì¸
-		std::cout << "ì°¸ê°€ë¥¼ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?" << std::endl;
+	void start() { //°ÔÀÓ ½ÃÀÛ 
+		std::cout << "°ÔÀÓÀ» ½ÃÀÛÇÕ´Ï´Ù." << std::endl;
+		std::cout << "µ¦À» ¼ÅÇÃÇÕ´Ï´Ù." << std::endl;
+		std::cout << "Ä«µå¸¦ 3Àå¾¿ ³ª´²ÁÝ´Ï´Ù." << std::endl;
 	}
 
-	void bet() { //ì°¸ê°€ë¥¼ í•œë‹¤ë©´, ë² íŒ…
-		std::cout << "ë² íŒ…ì„ í•´ì£¼ì„¸ìš” (ë ˆì´ì¦ˆ,ì½œ,ì²´í¬,ì˜¬ì¸,í´ë“œ)" << std::endl;
-
-	}
-	void card() { //ì¹´ë“œ í•œìž¥ì”©
-		std::cout << "ì¹´ë“œë¥¼ í•œìž¥ì”© ë‚˜ëˆ ì¤ë‹ˆë‹¤." << std::endl;
+	void card() { //Ä«µå ÇÑÀå¾¿
+		std::cout << "Ä«µå¸¦ ÇÑÀå¾¿ ³ª´²ÁÝ´Ï´Ù." << std::endl;
 	}
 
-	void winner() { //ìŠ¹ìž ê²°ì •
-		
-	}
-
-	//ê²Œìž„ ê·œì¹™ í´ëž˜ìŠ¤ ìƒì„± í›„ ê·¸ê±°ì— ë§žëŠ” ì¡°ê±´ ê²€ì‚¬í•˜ì—¬ ë©˜íŠ¸ ì¶œë ¥
 };
+
+int main() {
+	Dealer dealer;
+
+	Player p;
+	Player npc1;
+	Player npc2;
+	Player npc3;
+
+	Rule rule;
+
+	Betting pbet;
+	
+	while(true){
+		dealer.start();
+		p.playerDrow();
+		npc1.playerDrow();
+		npc2.playerDrow();
+		npc3.playerDrow();
+		int money_ = pbet.BettingRun(p, npc1, npc2, npc3);
+		if (p.getLose()) {
+			p.setLose(false);
+			npc1.setMoney(npc1.getMoney() + (money_ / 3));
+			npc2.setMoney(npc2.getMoney() + (money_ / 3));
+			npc3.setMoney(npc3.getMoney() + (money_ / 3));
+		}
+		else {
+			if (int x = rule.priority(p.getCard(), npc1.getCard(), npc2.getCard(), npc3.getCard()) == 0) {
+				p.setMoney(p.getMoney() + (money_ / 4));
+				npc1.setMoney(npc1.getMoney() + (money_ / 4));
+				npc2.setMoney(npc2.getMoney() + (money_ / 4));
+				npc3.setMoney(npc3.getMoney() + (money_ / 4));
+			}
+			else {
+				if (x == 1) {
+					p.setMoney(p.getMoney() + money_);
+				}
+				else if (x == 2) {
+					npc1.setMoney(npc1.getMoney() + money_);
+				}
+				else if (x == 3) {
+					npc2.setMoney(npc2.getMoney() + money_);
+				}
+				else {
+					npc3.setMoney(npc3.getMoney() + money_);
+				}
+			}
+		}
+		std::cout << "°ÔÀÓÀ» °è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î?(Y/N)" << std::endl;
+		char inp;
+		std::cin >> inp;
+		if (inp == 'N' || inp=='n')
+			break;
+		Card c;
+		c.shuffle();
+	}
+	return 0;
+
+}

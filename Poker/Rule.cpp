@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <array>
 #include <set>
@@ -6,7 +5,7 @@
 #include "Rule.h"
 
 
-// ì¹´ë“œ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì •ë ¬
+// Ä«µå ¿À¸§Â÷¼øÀ¸·Î Á¤·Ä
 void Rule::sortCard(int cardShape[], int cardValue[]) {
 	int swap;
 
@@ -151,8 +150,8 @@ int Rule::fourCard(int card[]) {
 }
 int Rule::straightFlush(int cardShape[], int cardValue[]) {
 	int count = 0;
-	count = count + straight(cardValue); // ë§¤ê°œë³€ìˆ˜ë¡œ card ë± ë°›ì•„ì•¼í•¨
-	count = count + flush(cardShape);  // ë§¤ê°œë³€ìˆ˜ë¡œ card ë± ë°›ì•„ì•¼í•¨
+	count = count + straight(cardValue); // ¸Å°³º¯¼ö·Î card µ¦ ¹Ş¾Æ¾ßÇÔ
+	count = count + flush(cardShape);  // ¸Å°³º¯¼ö·Î card µ¦ ¹Ş¾Æ¾ßÇÔ
 	if (count == 2) {
 		return 1;
 	}
@@ -180,7 +179,7 @@ int Rule::royalFlush(int cardShape[], int cardValue[]) {
 		else if (cardValue[i] == 13)
 			kingCount++;
 	}
-	count = count + flush(cardShape); // ë§¤ê°œë³€ìˆ˜ë¡œ card ë± ë°›ì•„ì•¼í•¨
+	count = count + flush(cardShape); // ¸Å°³º¯¼ö·Î card µ¦ ¹Ş¾Æ¾ßÇÔ
 	if (aceCount == 1 && tenCount == 1 && jackCount == 1 && queenCount == 1 && kingCount == 1 && count == 1) {
 		return 1;
 	}
@@ -195,7 +194,7 @@ int Rule::royalFlush(int cardShape[], int cardValue[]) {
 
 
 
-// ìì‹ ì˜ ì¹´ë“œ ë±ì¤‘ ê°€ëŠ¥í•œ ì¡°í•©
+// ÀÚ½ÅÀÇ Ä«µå µ¦Áß °¡´ÉÇÑ Á¶ÇÕ
 int Rule::deckCombination(Card card[]) {
 
 	int cardShape[5];
@@ -206,14 +205,14 @@ int Rule::deckCombination(Card card[]) {
 	}
 	int count = 0;
 
-	sortCard(cardShape, cardValue); // ì¹´ë“œì •ë ¬
+	sortCard(cardShape, cardValue); // Ä«µåÁ¤·Ä
 
 	if (royalFlush(cardShape, cardValue) == 1) {
-		std::cout << "royalFlush ê°€ëŠ¥ " << std::endl;
+		std::cout << "royalFlush °¡´É " << std::endl;
 		return 10;
 	}
 	else if (straightFlush(cardShape, cardValue) == 1) {
-		std::cout << "straightFlush ê°€ëŠ¥ " << std::endl;
+		std::cout << "straightFlush °¡´É " << std::endl;
 		return 9;
 	}
 	else if (fourCard(cardValue) == 1) {
@@ -221,31 +220,31 @@ int Rule::deckCombination(Card card[]) {
 		return 8;
 	}
 	else if (fullHouse(cardValue) == 1) {
-		std::cout << "fullHouse ê°€ëŠ¥ " << std::endl;
+		std::cout << "fullHouse °¡´É " << std::endl;
 		return 7;
 	}
 	else if (flush(cardShape) == 1) {
-		std::cout << "flush ê°€ëŠ¥ " << std::endl;
+		std::cout << "flush °¡´É " << std::endl;
 		return 6;
 	}
 	else if (straight(cardValue) == 1) {
-		std::cout << "straight ê°€ëŠ¥ " << std::endl;
+		std::cout << "straight °¡´É " << std::endl;
 		return 5;
 	}
 	else if (triple(cardValue) == 1) {
-		std::cout << "triple ê°€ëŠ¥ " << std::endl;
+		std::cout << "triple °¡´É " << std::endl;
 		return 4;
 	}
 	else if (twoPair(cardValue) == 1) {
-		std::cout << "twoPair ê°€ëŠ¥ " << std::endl;
+		std::cout << "twoPair °¡´É " << std::endl;
 		return 3;
 	}
 	else if (onePair(cardValue) == 1) {
-		std::cout << "onePair ê°€ëŠ¥ " << std::endl;
+		std::cout << "onePair °¡´É " << std::endl;
 		return 2;
 	}
 	else {
-		if (Rule::bestCard(card) == 1) {
+		if (Rule::bestCard(card) == 14) {
 			std::cout << "A top " << std::endl;
 		}
 		else if (Rule::bestCard(card) == 11) {
@@ -260,7 +259,7 @@ int Rule::deckCombination(Card card[]) {
 		else {
 			std::cout << Rule::bestCard(card) << " top " << std::endl;
 		}
-		
+
 		return 1;
 	}
 }
@@ -269,18 +268,20 @@ int Rule::deckCombination(Card card[]) {
 
 
 
-//ê°€ì¥ ë†’ì€ ì¹´ë“œë¥¼ ì•Œë ¤ì¤€ë‹¤.
+//°¡Àå ³ôÀº Ä«µå¸¦ ¾Ë·ÁÁØ´Ù.
 int Rule::bestCard(Card card[]) {
 	int max = 0;
+	int max_ = 0;
 
 	for (int i = 0; i < 5; i++) {
 
 		if (card[i].getValue() == 1) {
 
-			return 1;
+			return 14;
 		}
 		if (max < card[i].getValue()) {
 			max = card[i].getValue();
+			max_ = i;
 		}
 	}
 	return max;
@@ -288,57 +289,23 @@ int Rule::bestCard(Card card[]) {
 }
 
 
-//////////////////// ì‘ì„± í•´ì•¼í•¨
-
-
-void Rule::compareValue(Card p[], Card n1[], Card n2[], Card n3[]) {
-
-	int bestValue[4];
-	bestValue[0] = Rule::bestCard(p);
-	bestValue[1] = Rule::bestCard(n1);
-	bestValue[2] = Rule::bestCard(n2);
-	bestValue[3] = Rule::bestCard(n3);
-
-	int count = -1;
-	int max = 0;
-	std::set<int> maxDeck;
-
-		for (int i = 0; i < 4; i++) {
-			if (bestValue[i] == 1) {
-				max = bestValue[i];
-				break;
-			}
-			else if (max < bestValue[i]) {
-				max = bestValue[i];
-			}
-		}
-		for (int i = 0; i < 4; i++) {
-			if (max == bestValue[i]) {
-				count++;
-				maxDeck.insert(i);
-			}
-		}
-		if (count == 0) {// maxê°’ì— í•´ë‹¹í•˜ëŠ” ì‚¬ëŒì´ì´ê¹€
-			auto it = maxDeck.begin();
-			std::cout << "player" << (*it) + 1 << "win" << std::endl;
-			maxDeck.clear();
-		}
-		else {// max ê°’ ì¤‘ë³µ ëœëŠì‚¬ëŒëª¨ì–‘ë¹„êµ
-			std::cout << "ëª¨ì–‘ ë¹„êµ êµ¬í˜„ í•´ì•¼í•¨" << std::endl;
-		}
-	}
+//////////////////// ÀÛ¼º ÇØ¾ßÇÔ
 
 
 
-/*
-// ë¬¸ì–‘ì„ ë¹„êµí•œë‹¤.
-void compareShape() {
-}
-*/
 
 
-//ìŠ¹íŒ¨ë¥¼ ê²°ì •í•œë‹¤
-void Rule::priority(Card p[], Card n1[], Card n2[], Card n3[]) {
+
+
+// ¹®¾çÀ» ºñ±³ÇÑ´Ù.
+
+
+
+
+
+//½ÂÆĞ¸¦ °áÁ¤ÇÑ´Ù
+
+int Rule::priority(Card p[], Card n1[], Card n2[], Card n3[]) {
 
 	int score[4];
 	score[0] = Rule::deckCombination(p);
@@ -350,55 +317,192 @@ void Rule::priority(Card p[], Card n1[], Card n2[], Card n3[]) {
 	int count = -1;
 	std::set<int> maxDeck;
 
-	for (int i = 0; i < 4; i++) {//ê°€ì¥ ë†’ì€ ë°˜í™˜ deckCombinationì„ êµ¬í•œë‹¤.
+
+	for (int i = 0; i < 4; i++) {//°¡Àå ³ôÀº ¹İÈ¯ deckCombinationÀ» ±¸ÇÑ´Ù.
 		if (max < score[i]) {
 			max = score[i];
 		}
 	}
-	for (int i = 0; i < 4; i++) {//ê°€ì¥ ë†’ì€ ë°˜í™˜ deckCombinationì´ ê²¹ì¹  ë•Œë§ˆë‹¤ count ì¶”ê°€
+	for (int i = 0; i < 4; i++) {//°¡Àå ³ôÀº ¹İÈ¯ deckCombinationÀÌ °ãÄ¥ ¶§¸¶´Ù count Ãß°¡
 		if (max == score[i]) {
 			count++;
 			maxDeck.insert(i);
+			
 		}
 	}
-	if (count == 0) { //ìŠ¹íŒ¨ê°€ ëª…í™•í•  ë•Œ
+	if (count == 0) { //½ÂÆĞ°¡ ¸íÈ®ÇÒ ¶§
 		auto it = maxDeck.begin();
-		std::cout << "player" << (*it) + 1 << "win" << std::endl;
+		int a = (*it) + 1;
+		std::cout << "player" << a << "win" << std::endl;
 		maxDeck.clear();
+		return a;
 	}
-	else if (count != 0 && max == 1) {
-		Rule::compareValue(p, n1, n2, n3);
-	}
-	else {
-		std::cout << "êµ¬í˜„ì¤‘" << std::endl;
-	}
-}
+	else if (count != 0 && max == 1) {//top ÀÏ¶§
+		int max_ = -1;
+		int max__ = 0;
+		int count_ = 0;
+		for (int i = 0; i < 4; i++) {
+			score[i] = 0;
+		}
+		for (int i = 0; i < 5; i++) {
+			if (p[i].getValue() == 1)
+				score[0] = 14;
+			if (p[i].getValue() > score[0]) {
+				score[0] = p[i].getValue();
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			if (n1[i].getValue() == 1)
+				score[1] = 14;
+			if (n1[i].getValue() > score[1]) {
+				score[1] = n1[i].getValue();
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			if (n2[i].getValue() == 1)
+				score[2] = 14;
+			if (n2[i].getValue() > score[2]) {
+				score[2] = n2[i].getValue();
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			if (n3[i].getValue() == 1)
+				score[3] = 14;
+			if (n3[i].getValue() > score[3]) {
+				score[3] = n3[i].getValue();
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			if (max_ < score[i]) {
+				count_ = 1;
+				max_ = score[i];
+				max__ = i;
+			}
+			else if (max_ == score[i]) {
+				count_++;
+			}
+		}
+		if (count_ == 1) {
+			std::cout << "player" << max__ + 1 << "win" << std::endl;
+			return max__ + 1;
+		}
+		else {
+			return 0;
+		}
 
-int main() {
-	Card p[5];
-	Card n1[5];
-	Card n2[5];
-	Card n3[5];
+	}
+	else if(count != 0 && max == 2){//onepair
 
-	for (int i = 0; i < 5; i++) {
-		p[i].cardprint();
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < 5; i++) {
-		n1[i].cardprint();
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < 5; i++) {
-		n2[i].cardprint();
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < 5; i++) {
-		n3[i].cardprint();
-	}
-	std::cout << std::endl;
+		for (int i = 0; i < 4; i++) {
+			score[i] = -1;
+		}
+		for (auto it = maxDeck.begin(); it != maxDeck.end(); it++) {
+			if (*it == 0) {
+				int cardShape[5];
+				int cardValue[5];
+				for (int i = 0; i < 5; i++) {
+					cardShape[i] = p[i].getShape();
+					cardValue[i] = p[i].getValue();
+				}
 
-	Rule r;
+				sortCard(cardShape, cardValue);
+				for (int i = 0; i < 4; i++) {
+					if (cardValue[i] == cardValue[i+1]) {
+						if (cardValue[i] == 1) {
+							score[*it] = 14;
+						}
+						else {
+							score[*it] = cardValue[i];
+						}
+						break;
+					}
+				}
+			}
+			else if (*it == 1) {
+				int cardShape[5];
+				int cardValue[5];
+				for (int i = 0; i < 5; i++) {
+					cardShape[i] = n1[i].getShape();
+					cardValue[i] = n1[i].getValue();
+				}
 
-	r.priority(p, n1, n2, n3);
+				sortCard(cardShape, cardValue);
+				for (int i = 0; i < 4; i++) {
+					if (cardValue[i] == cardValue[i + 1]) {
+						if (cardValue[i] == 1) {
+							score[*it] = 14;
+						}
+						else {
+							score[*it] = cardValue[i];
+						}
+						break;
+					}
+				}
+			}
+			else if (*it == 2) {
+				int cardShape[5];
+				int cardValue[5];
+				for (int i = 0; i < 5; i++) {
+					cardShape[i] = n2[i].getShape();
+					cardValue[i] = n2[i].getValue();
+				}
+				sortCard(cardShape, cardValue);
+				for (int i = 0; i < 4; i++) {
+					if (cardValue[i] == cardValue[i + 1]) {
+						if (cardValue[i] == 1) {
+							score[*it] = 14;
+						}
+						else {
+							score[*it] = cardValue[i];
+						}
+						break;
+					}
+				}
+			}
+			else if (*it == 3) {
+				int cardShape[5];
+				int cardValue[5];
+				for (int i = 0; i < 5; i++) {
+					cardShape[i] = n3[i].getShape();
+					cardValue[i] = n3[i].getValue();
+				}
+				sortCard(cardShape, cardValue);
+				for (int i = 0; i < 4; i++) {
+					if (cardValue[i] == cardValue[i + 1]) {
+						if (cardValue[i] == 1) {
+							score[*it] = 14;
+						}
+						else {
+							score[*it] = cardValue[i];
+						}
+						break;
+					}
+				}
+			}
+		}
+		int count_ = 0;
+		int max__ = score[0];
+		int max_ = 0;
+		for (int i = 1; i < 4; i++) {
+			if (max__ < score[i]) {
+				max__ = score[i];
+				max_ = i;
+				count_ = 1;
+			}
+			else if (max__ == score[i]) {
+				count_++;
+			}
+		}
+		if (count_ == 1) {
+			std::cout << "player" << max_ + 1 << "win" << std::endl;
+			maxDeck.clear();
+			return max_ + 1;
+		}
+		else {
+			maxDeck.clear();
+			return 0; }
+	}
+	maxDeck.clear();
 	return 0;
 }
+

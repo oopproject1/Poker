@@ -1,16 +1,27 @@
 #pragma once
 #include<iostream>
 #include <string>
+#include "Card.h"
+using namespace std;
 
-class player {
+class Player {
 private:
-	int playerCash; // 플레이어가 가진 보유금액
-	int playerBetting; // 플레이어가 배팅할 금액
-	std::string playerCard; // 플레이어가 현재 가지고 있는 카드
-	std::string playerIsWin;// 플레이어가 승리했는지 패배했는지 확인
-
+	Card card[5];
+	int money;
+	bool lose;
+	int cardLength;
+	int bettingMoney;
+	string bettingStart;
+	bool death;
 public:
-	int setPlayerBetting(); // 플레이어가 베팅한 금액만큼 보유금액에서 제외한다.
-	void choiceCard(); // 플레이어가 보유한 카드중 공개할 카드 3장을 공개한다.
-	void playerMenu(); //플레이어가 현재 할 행동을 선택한다.
+	
+	Player();
+	void playerDrow();
+	int getMoney();
+	bool getLose();
+	int getCardLength();
+	void setMoney(int newMoney);
+	void setLose(bool newLose);
+	void setCardLength(int newCardLength);
+	Card* getCard();
 };

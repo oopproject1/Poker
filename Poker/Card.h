@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 class Card {
 private:
@@ -5,11 +6,11 @@ private:
 	static int remainCard[52];
 	int shape_;
 	int value_;
-	char shape;
+	std::string shape;
 	std::string value;
 public:
 	Card();
-	Card(int code);
+	void cardDrow();
 	void cardprint();
 	int getShape();
 	int getValue();

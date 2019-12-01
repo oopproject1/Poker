@@ -1,111 +1,269 @@
 #include <iostream>
 #include <string>
-#include "Rule.h"
+#include <cstdlib>
+#include <ctime>
+//#include "Rule.h"
 #include "Card.h"
 #include "Player.h"
+#include "Betting.h"
 using namespace std;
 
-class Betting {
 
-	//ìž„ì˜ë¡œ ê°’ì„ ë„£ì€ ì˜ˆì‹œë³€ìˆ˜, *í‘œì‹œë³€ìˆ˜ë“¤ì€ ì™¸ë¶€ì—ì„œ ë°›ì•„ì™€ì•¼í•  ë³€ìˆ˜ë“¤ì´ë‹¤.
-private:
-	int money; // í”Œë ˆì´ì–´ ë³´ìœ ê¸ˆì•¡ *
-	bool lose; // í”Œë ˆì´ì–´ ìŠ¹/íŒ¨ ìƒíƒœ *
-	int card[]; //í”Œë ˆì´ì–´ ë³´ìœ ì¹´ë“œ *
-	int bettingMoney; // ë² íŒ…ê¸ˆì•¡
-	string bettingStart; // ë² íŒ…ìœ ë¬´
-	bool death; // ë² íŒ…í•˜ì§€ì•Šê³  ì£½ì–´ìžˆëŠ”ìƒíƒœ
 
-	int cardLength; // í”Œë ˆì´ì–´ê°€ ë³´ìœ í•œ ì¹´ë“œê°œìˆ˜ *
-	int minBetting; // ê¸°ë³¸ë² íŒ…ê¸ˆì•¡ *
-	int maxBetting; // ìµœëŒ€ë² íŒ…ê¸ˆì•¡ *
+//ÀÓÀÇ·Î °ªÀ» ³ÖÀº ¿¹½Ãº¯¼ö, *Ç¥½Ãº¯¼öµéÀº ¿ÜºÎ¿¡¼­ ¹Þ¾Æ¿Í¾ßÇÒ º¯¼öµéÀÌ´Ù.
+Betting::Betting() {
+	srand((unsigned int)time(NULL));
+	n1 = (rand() % 401) + 100;
+	n2 = (rand() % 401) + 100;
+	n3 = (rand() % 401) + 100;
+	roundMoney = 0;
+	round = 0;
+	cardLength = 3; // ÇÃ·¹ÀÌ¾î°¡ º¸À¯ÇÑ Ä«µå°³¼ö *
+	minBetting = 100; // ±âº»º£ÆÃ±Ý¾× *
+}
+//ÀÓ½Ã getter
+int Betting::getBettingMoney() { return this->bettingMoney; }
+string Betting::getBettingStart() { return this->bettingStart; }
+bool Betting::getDeath() { return this->death; }
 
-public:
-	//ìž„ì‹œ getter
-	int getMoney() { return this->money; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	bool getLose() { return this->lose; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	int getBettingMoney() { return this->bettingMoney; }
-	string getBettingStart() { return this->bettingStart; }
-	bool getDeath() { return this->death; }
-	
-	int getCardLength() { return this->cardLength; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	int getMinBetting() { return this->minBetting; } //ì´í›„ íƒ€í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	int getMaxBetting() { return this->maxBetting; } //ì´í›„ íƒ€í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
 
-	//ìž„ì‹œ setter
-	void setMoney(int newMoney) { this->money = newMoney; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	void setLose(bool newLose) { this->lose = newLose; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	void setBettingMoney(int newBettingMoney) { this->bettingMoney = newBettingMoney; }
-	void setBettingStart(string newBettingStart) { this->bettingStart = newBettingStart; }
-	void setDeath(bool newDeath) { this->death = newDeath; }
+//ÀÓ½Ã setter
+void Betting::setBettingMoney(int newBettingMoney) { this->bettingMoney = newBettingMoney; }
+void Betting::setBettingStart(string newBettingStart) { this->bettingStart = newBettingStart; }
+void Betting::setDeath(bool newDeath) { this->death = newDeath; }
 
-	void setCardLength(int newCardLength) { this->cardLength = newCardLength; } //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	void setMinBetting(int newMinBetting) { this->minBetting = newMinBetting; } //ì´í›„ íƒ€í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
-	void setMoney(int newMaxBetting) { this->maxBetting = newMaxBetting; } //ì´í›„ íƒ€í´ëž˜ìŠ¤ì—ì„œ êµ¬í˜„ë˜ë©´ ì‚­ì œ
 
-	//Betting(int getMoney, bool getLose) {
-	//	money = getMoney;
-	//	lose = getLose;
-	//	bettingMoney = 0;
-	//	bettingStart = "Y";
-	//	death = false;
-	//}
+//Betting(int getMoney, bool getLose) {
+//   money = getMoney;
+//   lose = getLose;
+//   bettingMoney = 0;
+//   bettingStart = "Y";
+//   death = false;
+//}
 
-	//ë² íŒ…ì‹œìž‘ë©”ì†Œë“œ
-	void BettingRun() {
-		if (this->getLose() == true) {
-			cout << "ë‹¹ì‹ ì€ ì´ë¯¸ íŒ¨ë°°í•œ ìƒíƒœìž…ë‹ˆë‹¤." << endl;
-			return;
-		}
-		else if (this->getMoney() < getMinBetting()) {
-			setLose(true);
-			cout << "ìµœì†Œë² íŒ…ê¸ˆì•¡ì„ ì¶©ì¡±í•˜ì§€ ëª»í•˜ì—¬ íŒ¨ë°°í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
-			return;
-		}
-		else if (this->getLose() == false) {
-			this->setMoney(this->getMoney() - getMinBetting());
-			cout << "ê¸°ë³¸ë² íŒ…ê¸ˆì•¡ " << getMinBetting() << "ì„ ì§€ë¶ˆí–ˆìŠµë‹ˆë‹¤." << endl;
-			cout << "ë² íŒ…ì„ í•˜ì‹œê² ìŠµë‹ˆê¹Œ? ( Y or N )" << endl;
-			string BStemp;
-			cin >> BStemp;
-			this->setBettingStart(BStemp);
-			if (this->getBettingStart() == "Y") {
-				cout << "ë² íŒ…í•  ê¸ˆì•¡ì„ ìž…ë ¥í•˜ì„¸ìš”. ìµœëŒ€ë² íŒ…ê¸ˆì•¡ì€ " << getMaxBetting() << " ìž…ë‹ˆë‹¤" << endl;
+//º£ÆÃ½ÃÀÛ¸Þ¼Òµå
+int Betting::BettingRun(Player& player, Player& npc1, Player& npc2, Player& npc3) {
+	round = 0;
+	roundMoney = 0;
+	//ÇÃ·¹ÀÌ¾î Ä«µå
+	if (player.getLose() == true) {
+		cout << "´ç½ÅÀº ÀÌ¹Ì ÆÐ¹èÇÑ »óÅÂÀÔ´Ï´Ù." << endl;
+		return 0;
+	}
+	else if (player.getMoney() < minBetting) {
+		player.setLose(true);
+		cout << "ÃÖ¼Òº£ÆÃ±Ý¾×À» ÃæÁ·ÇÏÁö ¸øÇÏ¿© ÆÐ¹èÇÏ¿´½À´Ï´Ù." << endl;
+		return 0;
+	}
+	else if (player.getLose() == false) {
+		player.setMoney(player.getMoney() - minBetting);
+		roundMoney += (minBetting * 4);
+		cout << "±âº»º£ÆÃ±Ý¾× " << minBetting << "À» ÁöºÒÇß½À´Ï´Ù." << endl;
+
+		
+
+		while (round < 3) {
+			
+
+			Card* cardget = player.getCard();
+			
+			
+			
+			for (int i = 0; i < 3 + round; i++) {
+				cardget[i].cardprint();
+			}
+			std::cout << std::endl;
+			
+			pround = 0;
+			n1round = 0;
+			n2round = 0;
+			n3round = 0;
+			raiseMoney = 0;
+			
+			cout << "º£ÆÃ¹æ½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä. (1.·¹ÀÌÁî 2.Ã¼Å© 3.Æúµå)" << endl;
+			string BettingType;
+			cin >> BettingType;
+			if (BettingType == "1") {
+				cout << "[·¹ÀÌÁî]º£ÆÃ±Ý¾×À» ÀÔ·ÂÇÏ¼¼¿ä. ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+				int tempBM;
+				cin >> tempBM;
+				raiseMoney += tempBM;
+				this->setBettingMoney(tempBM);
+				if (this->getBettingMoney() > player.getMoney()) {
+					cout << "º¸À¯±Ý¾×À» ÃÊ°úÇÏ¿´½À´Ï´Ù." << endl;
+				}
+				else {
+					player.setMoney(player.getMoney() - getBettingMoney());
+					roundMoney += getBettingMoney();
+					pround += getBettingMoney();
+					cout << this->getBettingMoney() << "¿øÀ» º£ÆÃÇÏ¿´½À´Ï´Ù. ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+					//roundMoney += getNpcBettingMoney();
+				}
+			}
+			else if (BettingType == "2") {
+				cout << "[Ã¼Å©] Ã¼Å©ÇÏ¿© ÆÇµ·À» Ãß°¡ÇÏÁö ¾Ê½À´Ï´Ù. ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù. " << endl;
+			}
+			else if (BettingType == "3") {
+				cout << "[Æúµå] °ÔÀÓÀ» Æ÷±âÇÕ´Ï´Ù." << endl;
+				player.setLose(true);
+				return roundMoney;
+			}
+
+			n1 = (rand() % 401) + 100;
+			n2 = (rand() % 401) + 100;
+			n3 = (rand() % 401) + 100;
+			
+			raiseMoney += n1;
+			roundMoney += raiseMoney;
+			n1round += raiseMoney;
+			npc1.setMoney(npc1.getMoney() - n1round);
+			cout << "ÇÃ·¹ÀÌ¾î2 Àº" << n1 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << npc1.getMoney() << endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			raiseMoney += n2;
+			roundMoney += raiseMoney;
+			n2round += raiseMoney;
+			npc2.setMoney(npc2.getMoney() - n2round);
+			cout << "ÇÃ·¹ÀÌ¾î3 Àº" << n2 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << npc2.getMoney() << endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			raiseMoney += n3;
+			roundMoney += raiseMoney;
+			n3round += raiseMoney;
+			npc3.setMoney(npc3.getMoney() - n3round);
+			cout << "ÇÃ·¹ÀÌ¾î4 Àº" << n3 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << npc3.getMoney() << endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			cout << "º£ÆÃ¹æ½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä. (1.·¹ÀÌÁî 2.ÄÝ 3.Æúµå)" << endl;
+			BettingType;
+			cin >> BettingType;
+			if (BettingType == "1") {
+				cout << "[·¹ÀÌÁî]º£ÆÃ±Ý¾×À» ÀÔ·ÂÇÏ¼¼¿ä. ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
 				int tempBM;
 				cin >> tempBM;
 				this->setBettingMoney(tempBM);
-				if (this->getBettingMoney() > getMaxBetting()) {
-					cout << "ìµœëŒ€ë² íŒ…ê¸ˆì•¡ì„ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
-				}
-				else if (this->getBettingMoney() > this->getMoney()) {
-					cout << "ë³´ìœ ê¸ˆì•¡ì„ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
+				if (this->getBettingMoney() > player.getMoney()) {
+					cout << "º¸À¯±Ý¾×À» ÃÊ°úÇÏ¿´½À´Ï´Ù." << endl;
 				}
 				else {
-					this->setMoney(this->getMoney() - this->getBettingMoney());
-					cout << this->getBettingMoney() << "ì›ì„ ë² íŒ…í•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
+					player.setMoney(player.getMoney() - (getBettingMoney() + raiseMoney));
+					raiseMoney += getBettingMoney();
+					roundMoney += raiseMoney;
+					pround += raiseMoney;
+					cout << this->getBettingMoney() << "¿øÀ» º£ÆÃÇÏ¿´½À´Ï´Ù. ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+					//roundMoney += getNpcBettingMoney();
 				}
 			}
-			else if (this->getBettingStart() == "N") {
-				cout << "ì£½ì—ˆìŠµë‹ˆë‹¤." << endl;
-				this->setDeath(true);
-			}
-		}
-		if (getCardLength() == 5) {
-			cout << "ê²Œìž„ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ê²Œìž„ì˜ ìŠ¹ìžì™€ í”Œë ˆì´ì–´ë“¤ì˜ ë‚¨ì€ ê¸ˆì•¡ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤" << endl;
-			//êµ¬í˜„ì¤‘
-			
-			
-		}
-		else if (getCardLength() < 5) {
-			cout << "í•´ë‹¹ í„´ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. í•´ë‹¹ í„´ì˜ ìŠ¹ìžì™€ ë² íŒ…ê¸ˆì•¡ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤." << endl;
-			//Card p[] = getCard_p();  //ì´í›„ í”Œë ˆì´ì–´ í´ëž˜ìŠ¤ê°€ ì™„ì„±ë˜ë©´ í™œì„±í™” //í”Œë ˆì´ì–´ì™€ ì»´í“¨í„°ê°€ ê°€ì§„ ì¹´ë“œë¥¼ ê°€ì ¸ì˜¨ë‹¤.
-			//Card n1[] = getCard_n1();
-			//Card n2[] = getCard_n2();
-			//Card n3[] = getCard_n3();
-			priority(p[], n1[], n2[], n3[]); //ê·œì¹™í´ëž˜ìŠ¤ì—ì„œ ìŠ¹ìžì™€ í”Œë ˆì´ì–´ë“¤ì˜ ì¹´ë“œ ì¶œë ¥
-			//ì´í›„ ìŠ¹ë¦¬í•œ í”Œë ˆì´ì–´ì˜ ë³´ìœ ê¸ˆì•¡ì— ë‚˜ë¨¸ì§€ ì¸ì›ì˜ ë² íŒ…ê¸ˆì•¡ì„ ì¶”ê°€
+			else if (BettingType == "2") {
+				cout << "[ÄÝ] ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù. " << endl;
+				player.setMoney(player.getMoney() - (n3round - pround));
 
-			cout << "ìƒˆë¡œìš´ ì¹´ë“œ1ìž¥ì„ ë°›ì•˜ìŠµë‹ˆë‹¤: " << "newcard" << endl;;
+				roundMoney += n3round - pround;
+				cout << "ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+				roundMoney += n3round - n1round;
+				npc1.setMoney(npc1.getMoney() - roundMoney);
+				cout << "ÇÃ·¹ÀÌ¾î2 Àº ÄÝÀ» ÇØ¼­" << n3round - n1round << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+				roundMoney += n3round - n2round;
+				npc2.setMoney(npc2.getMoney() - roundMoney);
+				cout << "ÇÃ·¹ÀÌ¾î3 Àº ÄÝÀ» ÇØ¼­" << n3round - n2round << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+
+				cout << "ÇÃ·¹ÀÌ¾î4 Àº ÄÝÀ» ÇØ¼­" << 0 << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+				round++;
+				continue;
+			}
+			else if (BettingType == "3") {
+				cout << "[Æúµå] °ÔÀÓÀ» Æ÷±âÇÕ´Ï´Ù." << endl;
+				player.setLose(true);
+				return roundMoney;
+			}
+
+			n1 = (rand() % 401) + 100;
+			n2 = (rand() % 401) + 100;
+			n3 = (rand() % 401) + 100;
+
+			raiseMoney += n1;
+			roundMoney += raiseMoney;
+			n1round += raiseMoney;
+			npc1.setMoney(npc1.getMoney() - n1round);
+			cout << "ÇÃ·¹ÀÌ¾î2 Àº" << n1 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " <<  npc1.getMoney() <<endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			raiseMoney += n2;
+			roundMoney += raiseMoney;
+			n2round += raiseMoney;
+			npc2.setMoney(npc2.getMoney() - n2round);
+			cout << "ÇÃ·¹ÀÌ¾î3 Àº" << n2 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << npc2.getMoney() << endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			raiseMoney += n3;
+			roundMoney += raiseMoney;
+			n3round += raiseMoney;
+			npc3.setMoney(npc3.getMoney() - n3round);
+			cout << "ÇÃ·¹ÀÌ¾î4 Àº" << n3 << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << raiseMoney << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << npc3.getMoney() << endl;
+			cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			cout << "º£ÆÃ¹æ½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä. (1.ÄÝ 2.Æúµå)" << endl;
+			BettingType;
+			cin >> BettingType;
+
+			if (BettingType == "1") {
+				player.setMoney(player.getMoney() - (n3round - pround));
+
+				roundMoney += n3round - pround;
+				cout << "ÇöÀçº¸À¯±Ý¾×Àº " << player.getMoney() << ", ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+				roundMoney += n3round - n1round;
+				npc1.setMoney(npc1.getMoney() - roundMoney);
+				cout << "ÇÃ·¹ÀÌ¾î2 Àº ÄÝÀ» ÇØ¼­" << n3round - n1round << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+				roundMoney += n3round - n2round;
+				npc2.setMoney(npc2.getMoney() - roundMoney);
+				cout << "ÇÃ·¹ÀÌ¾î3 Àº ÄÝÀ» ÇØ¼­" << n3round - n2round << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+
+				cout << "ÇÃ·¹ÀÌ¾î4 Àº ÄÝÀ» ÇØ¼­" << 0 << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù." << endl;
+				cout << "ÆÇµ·Àº " << roundMoney << " ÀÔ´Ï´Ù." << endl;
+
+			}
+			else if (BettingType == "2") {
+				cout << "[Æúµå] °ÔÀÓÀ» Æ÷±âÇÕ´Ï´Ù." << endl;
+				player.setLose(true);
+				return roundMoney;
+			}
+			round++;
 		}
+
+
 	}
+
+	for (int i = 0; i < 5; i++) {
+		Card* cardget = player.getCard();
+		cardget[i].cardprint();
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 5; i++) { //n1 test Ãâ·Â
+		Card* cardget = npc1.getCard();
+		cardget[i].cardprint();
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 5; i++) { //n2 test Ãâ·Â
+		Card* cardget = npc2.getCard();
+		cardget[i].cardprint();
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 5; i++) { //n3 test Ãâ·Â
+		Card* cardget = npc3.getCard();
+		cardget[i].cardprint();
+	}
+	std::cout << std::endl;
+	return roundMoney;
 }
