@@ -1,5 +1,4 @@
 #include "Npc.h"
-#include "Player.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -35,11 +34,11 @@ void Npc::doBet(int n, int mon, int* raise, int* round, int* player_round) {
 	*raise += n;
 	*round += *raise;
 	*player_round += *raise;
-	cout << " Àº" << n << "¿øÀ» ·¹ÀÌÁîÇÏ¿©¼­ " << *raise << " ¸¦ ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << mon << endl;
-	cout << "ÆÇµ·Àº " << *round << " ÀÔ´Ï´Ù." << endl;
+	cout << " ì€" << n << "ì›ì„ ë ˆì´ì¦ˆí•˜ì—¬ì„œ " << *raise << " ë¥¼ ì§€ë¶ˆí•˜ì˜€ìŠµë‹ˆë‹¤. ë³´ìœ ê¸ˆ: " << mon << endl;
+	cout << "íŒëˆì€ " << *round << " ìž…ë‹ˆë‹¤." << endl;
 }
 void Npc::doCall(int n, int mon, int* round) {
 	*round += n;
-	cout << "ÇÃ·¹ÀÌ¾î3 Àº ÄÝÀ» ÇØ¼­" << n << " ¿øÀ» ÁöºÒÇÏ¿´½À´Ï´Ù. º¸À¯±Ý: " << mon << endl;
-	cout << "ÆÇµ·Àº " << *round << " ÀÔ´Ï´Ù." << endl;
+	cout << "í”Œë ˆì´ì–´3 ì€ ì½œì„ í•´ì„œ" << n << " ì›ì„ ì§€ë¶ˆí•˜ì˜€ìŠµë‹ˆë‹¤. ë³´ìœ ê¸ˆ: " << mon << endl;
+	cout << "íŒëˆì€ " << *round << " ìž…ë‹ˆë‹¤." << endl;
 }
