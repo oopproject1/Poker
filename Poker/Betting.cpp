@@ -6,6 +6,7 @@
 #include "Card.h"
 #include "Player.h"
 #include "Betting.h"
+#include <Windows.h>
 using namespace std;
 
 
@@ -36,6 +37,9 @@ bool Betting::getDeath() { return this->death; }
 void Betting::setBettingMoney(int newBettingMoney) { this->bettingMoney = newBettingMoney; }
 void Betting::setBettingStart(string newBettingStart) { this->bettingStart = newBettingStart; }
 void Betting::setDeath(bool newDeath) { this->death = newDeath; }
+void Betting::notEnoughMoney() {
+
+}
 
 
 //Betting(int getMoney, bool getLose) {
@@ -53,11 +57,13 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 	//플레이어 카드
 	if (user->getLose() == true) {
 		cout << "당신은 이미 패배한 상태입니다." << endl;
+		cout << "" << endl;
 		return 0;
 	}
 	else if (user->getMoney() < minBetting) {
 		user->setLose(true);
 		cout << "최소베팅금액을 충족하지 못하여 패배하였습니다." << endl;
+		cout << "" << endl;
 		return 0;
 	}
 	else if (user->getLose() == false) {
@@ -67,31 +73,33 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 		npc3->setMoney(npc3->getMoney() - minBetting);
 		roundMoney += (minBetting * 4);
 		cout << "기본베팅금액 " << minBetting << "을 지불했습니다." << endl;
+		cout << "" << endl;
 
-		
+
 
 		while (round < 3) {
-			
+
 
 			Card* cardget = user->getCard();
-			
-			
-			
+
+
+
 			for (int i = 0; i < 3 + round; i++) {
 				cardget[i].cardprint();
 			}
 			std::cout << std::endl;
-			
+
 			pround = 0;
 			n1round = 0;
 			n2round = 0;
 			n3round = 0;
 			raiseMoney = 0;
-			
+
 			string BettingType;
 			while (true) {
 				cout << "베팅방식을 입력하세요. (1.레이즈 2.체크 3.폴드)" << endl;
 				cin >> BettingType;
+				cout << "" << endl;
 				if (BettingType == "1" || BettingType == "2" || BettingType == "3")
 					break;
 			}
@@ -99,10 +107,28 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 				cout << "[레이즈]베팅금액을 입력하세요. 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다." << endl;
 				int tempBM;
 				cin >> tempBM;
+				cout << "" << endl;
+				cout << "" << endl;
 				raiseMoney += tempBM;
 				this->setBettingMoney(tempBM);
 				if (this->getBettingMoney() > user->getMoney()) {
-					cout << "보유금액을 초과하였습니다." << endl;
+					while (true) {
+						cout << "보유금액을 초과하였습니다." << endl;
+						raiseMoney = 0;
+						tempBM = 0;
+						this->setBettingMoney(0);
+						cout << "[레이즈]베팅금액을 입력하세요. 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다." << endl;
+						cin >> tempBM;
+						cout << "" << endl;
+						raiseMoney += tempBM;
+						this->setBettingMoney(tempBM);
+						if (this->getBettingMoney() < user->getMoney()) {
+							break;
+						}
+					}
+					user->setMoney(user->getMoney() - getBettingMoney());
+					user->doBet(tempBM, user->getMoney(), &raiseMoney, &roundMoney, &pround);
+
 				}
 				else {
 					user->setMoney(user->getMoney() - getBettingMoney());
@@ -113,9 +139,11 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			}
 			else if (BettingType == "2") {
 				cout << "[체크] 체크하여 판돈을 추가하지 않습니다. 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다. " << endl;
+				cout << "" << endl;
 			}
 			else if (BettingType == "3") {
 				cout << "[폴드] 게임을 포기합니다." << endl;
+				cout << "" << endl;
 				user->setLose(true);
 				return roundMoney;
 			}
@@ -123,7 +151,7 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			n1 = (rand() % 401) + 100;
 			n2 = (rand() % 401) + 100;
 			n3 = (rand() % 401) + 100;
-			
+
 			cout << "플레이어2";
 			npc1->setMoney(npc1->getMoney() - raiseMoney - n1);
 			npc1->doBet(n1, npc1->getMoney(), &raiseMoney, &roundMoney, &n1round);
@@ -146,6 +174,7 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			while (true) {
 				cout << "베팅방식을 입력하세요. (1.레이즈 2.콜 3.폴드)" << endl;
 				cin >> BettingType;
+				cout << "" << endl;
 				if (BettingType == "1" || BettingType == "2" || BettingType == "3")
 					break;
 			}
@@ -153,9 +182,25 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 				cout << "[레이즈]베팅금액을 입력하세요. 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다." << endl;
 				int tempBM;
 				cin >> tempBM;
+				cout << "" << endl;
 				this->setBettingMoney(tempBM);
 				if (this->getBettingMoney() > user->getMoney()) {
-					cout << "보유금액을 초과하였습니다." << endl;
+					while (true) {
+						cout << "보유금액을 초과하였습니다." << endl;
+						raiseMoney = 0;
+						tempBM = 0;
+						this->setBettingMoney(0);
+						cout << "[레이즈]베팅금액을 입력하세요. 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다." << endl;
+						cin >> tempBM;
+						cout << "" << endl;
+						raiseMoney += tempBM;
+						this->setBettingMoney(tempBM);
+						if (this->getBettingMoney() < user->getMoney()) {
+							break;
+						}
+					}
+					user->setMoney(user->getMoney() - getBettingMoney());
+					user->doBet(tempBM, user->getMoney(), &raiseMoney, &roundMoney, &pround);
 				}
 				else {
 					user->setMoney(user->getMoney() - (getBettingMoney() + raiseMoney));
@@ -168,9 +213,10 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			}
 			else if (BettingType == "2") {
 				cout << "[콜] 현재보유금액은 " << user->getMoney() << ", 판돈은 " << roundMoney << " 입니다. " << endl;
+				cout << "" << endl;
 				user->setMoney(user->getMoney() - (n3round - pround));
 				user->doCall(n3round - pround, user->getMoney(), &roundMoney);
-				
+
 
 				cout << "플레이어2";
 				n1 = n3round - n1round;
@@ -204,7 +250,7 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			n2 = (rand() % 401) + 100;
 			n3 = (rand() % 401) + 100;
 
-			
+
 			cout << "플레이어2";
 			npc1->setMoney(npc1->getMoney() - raiseMoney - n1);
 			npc1->doBet(n1, npc1->getMoney(), &raiseMoney, &roundMoney, &n1round);
@@ -217,7 +263,7 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 			//cout << "플레이어3 은" << n2 << "원을 레이즈하여서 " << raiseMoney << " 를 지불하였습니다. 보유금: " << npc2->getMoney() << endl;
 			//cout << "판돈은 " << roundMoney << " 입니다." << endl;
 
-			
+
 			cout << "플레이어4";
 			npc3->setMoney(npc3->getMoney() - raiseMoney - n3);
 			npc3->doBet(n3, npc3->getMoney(), &raiseMoney, &roundMoney, &n3round);
@@ -268,26 +314,33 @@ int Betting::BettingRun(Player* user, Player* npc1, Player* npc2, Player* npc3) 
 
 
 	}
-
+	cout << "Player1의 패는" << endl;
 	for (int i = 0; i < 5; i++) {
 		Card* cardget = user->getCard();
 		cardget[i].cardprint();
 	}
+	Sleep(1000);
 	std::cout << std::endl;
+	cout << "Player2의 패는" << endl;
 	for (int i = 0; i < 5; i++) { //n1 test 출력
 		Card* cardget = npc1->getCard();
 		cardget[i].cardprint();
 	}
+	Sleep(1000);
 	std::cout << std::endl;
+	cout << "Player3의 패는" << endl;
 	for (int i = 0; i < 5; i++) { //n2 test 출력
 		Card* cardget = npc2->getCard();
 		cardget[i].cardprint();
 	}
+	Sleep(1000);
 	std::cout << std::endl;
+	cout << "Player4의 패는" << endl;
 	for (int i = 0; i < 5; i++) { //n3 test 출력
 		Card* cardget = npc3->getCard();
 		cardget[i].cardprint();
 	}
+	Sleep(1000);
 	std::cout << std::endl;
 	return roundMoney;
 }
