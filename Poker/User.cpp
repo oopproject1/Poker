@@ -1,4 +1,3 @@
-#include "Player.h"
 #include "User.h"
 #include <iostream>
 #include <cstdlib>
@@ -36,9 +35,9 @@ Card* User::getCard() {
 void User::doBet(int n, int mon, int* raise, int* round, int* player_round) {
 	*round += *raise;
 	*player_round += *raise;
-	cout << n << "¿øÀ» º£ÆÃÇÏ¿´½À´Ï´Ù. ÇöÀçº¸À¯±İ¾×Àº " << mon << ", ÆÇµ·Àº " << *round << " ÀÔ´Ï´Ù." << endl;
+	cout << n << "ì›ì„ ë² íŒ…í•˜ì˜€ìŠµë‹ˆë‹¤. í˜„ì¬ë³´ìœ ê¸ˆì•¡ì€ " << mon << ", íŒëˆì€ " << *round << " ì…ë‹ˆë‹¤." << endl;
 }
 void User::doCall(int n, int mon, int* round) {
 	*round += n;
-	cout << "ÇöÀçº¸À¯±İ¾×Àº " << mon << ", ÆÇµ·Àº " << *round << " ÀÔ´Ï´Ù." << endl;
+	cout << "í˜„ì¬ë³´ìœ ê¸ˆì•¡ì€ " << mon << ", íŒëˆì€ " << *round << " ì…ë‹ˆë‹¤." << endl;
 }
