@@ -31,3 +31,9 @@ void Player::setCardLength(int newCardLength) { this->cardLength = newCardLength
 Card* Player::getCard() {
 	return card;
 }
+void Player::doBet(int n, int mon, int* raise, int* round, int* player_round) {
+	return;
+}
+void Player::doCall(int n, int mon, int* round) {
+	return;
+}

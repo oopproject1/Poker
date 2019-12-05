@@ -33,5 +33,5 @@ public:
 	void setBettingMoney(int newBettingMoney);
 	void setBettingStart(std::string newBettingStart);
 	void setDeath(bool newDeath);
-	int BettingRun(Player& player, Player& npc1, Player& npc2, Player& npc3);
+	int BettingRun(Player* player, Player* npc1, Player* npc2, Player* npc3);
 };

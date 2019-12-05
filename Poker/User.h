@@ -1,10 +1,7 @@
 #pragma once
-#include<iostream>
-#include <string>
+#include "Player.h"
 #include "Card.h"
-using namespace std;
-
-class Player {
+class User : public Player {
 private:
 	Card card[5];
 	int money;
@@ -14,8 +11,8 @@ private:
 	string bettingStart;
 	bool death;
 public:
-	
-	Player();
+
+	User();
 	void playerDrow();
 	int getMoney();
 	bool getLose();
@@ -24,6 +21,6 @@ public:
 	void setLose(bool newLose);
 	void setCardLength(int newCardLength);
 	Card* getCard();
-	virtual void doBet(int n, int mon, int* raise, int* round, int* player_round);
-	virtual void doCall(int n, int mon, int* round);
+	void doBet(int n, int mon, int* raise, int* round, int* player_round);
+	void doCall(int n, int mon, int* round);
 };
